@@ -2,9 +2,30 @@ import streamlit as st
 import sqlite3
 
 def show_add_medicine_page(medicine_conn):
-    st.title("Add New Medicine")
 
-    # Create a form for adding new medicine
+    st.markdown("""
+    <style>
+    .stApp {
+        background-color: #0E1117;
+        color: #FAFAFA;
+    }
+    .stTextInput>div>input, .stNumberInput>div>input, .stDateInput>div>input, .stSelectbox>div>div {
+        background-color: #262730 !important;
+        color: #FAFAFA !important;
+        border-radius: 8px;
+        border: 1px solid #00BFFF;
+    }
+    .stButton>button {
+        background-color: #00BFFF !important;
+        color: #FAFAFA !important;
+        border-radius: 8px;
+        border: none;
+        font-weight: bold;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.title("Add New Medicine")
     with st.form(key='add_medicine_form'):
         patient_name = st.text_input("Patient Name")
         medicine_name = st.text_input("Medicine")
@@ -26,8 +47,6 @@ def show_add_medicine_page(medicine_conn):
                     ''', (patient_name, medicine_name, disease, variety, quantity, date, season))
                     medicine_conn.commit()
                     st.success("Medicine added successfully!")
-                    
-                    # Optionally clear the form
                     st.rerun()
                 except sqlite3.Error as e:
                     st.error(f"Failed to add medicine: {e}")

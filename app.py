@@ -1,10 +1,9 @@
+
 import streamlit as st
+st.set_page_config(page_title="Drug Prescription App", page_icon="💊", layout="wide")
 import sqlite3
 from pathlib import Path
 from passlib.hash import bcrypt
-
-# PAGE CONFIG MUST BE FIRST - Before any other imports that use Streamlit
-st.set_page_config(page_title="Drug Prediction", page_icon="💊", layout="wide")
 
 # Now import modules that use Streamlit
 from predict_page import show_predict_page

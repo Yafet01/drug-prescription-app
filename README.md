@@ -1,15 +1,21 @@
 # Drug Prescription App
 
-A Streamlit web app for managing and analyzing drug prescriptions and disease datasets.
+A Streamlit web application for analyzing drug prescriptions and disease datasets. Users can predict, explore, view records, add medicines, and manage users securely.
 
 ## Features
 - User authentication
-- Add/view medicines
-- Explore historical data
-- Predict outcomes using ML models
+- Predict disease/medicine
+- Explore dataset
+- View and add records
+- Add new medicines and users
+- Dark mode UI
 
-## Setup
-1. Clone the repo:
+## Requirements
+- Python 3.12+
+- See requirements.txt for dependencies
+
+## Quick Start
+1. Clone the repository:
    ```bash
    git clone https://github.com/Yafet01/drug-prescription-app.git
    cd drug-prescription-app
@@ -18,16 +24,22 @@ A Streamlit web app for managing and analyzing drug prescriptions and disease da
    ```bash
    pip install -r requirements.txt
    ```
-3. Run locally:
+3. Run the app:
    ```bash
    streamlit run app.py
    ```
 
 ## Deployment
-- Ready for Streamlit Cloud or other web hosting
-- See `.streamlit/config.toml` for production config
+- For local deployment, use the above Quick Start steps.
+- For cloud hosting (e.g., Streamlit Cloud, Heroku):
+  - Ensure all required files (app.py, requirements.txt, model files, databases) are present.
+  - Set up environment variables if needed.
+  - Configure the port and headless mode in `.streamlit/config.toml`.
 
-## Notes
-- Place a login image in `assets/login_image.png` (or update/remove in app.py)
-- Model files must be present in `Model/`
-- Database files are created automatically
+## Hosting Tips
+- Use relative paths for assets and databases.
+- Remove sensitive files before pushing to public repositories.
+- For Streamlit Cloud, simply push to GitHub and connect your repo.
+
+## License
+MIT License
