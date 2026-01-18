@@ -16,7 +16,7 @@ from add_user_page import add_user_page
 # Constants
 DB_PATH_USERS = "users.db"
 DB_PATH_MEDICINE = "Historical_Data_Medicine.db"
-IMAGE_PATH = "assets/login_image.png"  # Use a relative path for web hosting
+IMAGE_PATH = r"C:\Users\tedya\OneDrive\Pictures\Cyberpunk 2077\photomode_28092023_224143.png"
 STYLES_PATH = "styles.css"
 
 @st.cache_resource
@@ -195,6 +195,12 @@ def main():
         if st.sidebar.button("🚪 Log Out", key="logout_button"):
             logout()
             st.rerun()
+
+    # Ensure database connections are closed
+    if medicine_conn:
+        medicine_conn.close()
+    if conn:
+        conn.close()
 
 if __name__ == '__main__':
     main()

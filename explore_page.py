@@ -6,7 +6,7 @@ warnings.filterwarnings("ignore")
 
 @st.cache_data
 def load_data():
-    train_data = pd.read_csv("new medicine.csv")
+    train_data = pd.read_csv("Model/Historical_Data_2021_Jan_2024.csv")
     train_data["Date"] = pd.to_datetime(train_data["Date"])
     train_data['Date'] = train_data['Date'].dt.to_period("M")
     monthly_sales = train_data.groupby("Date").sum().reset_index()

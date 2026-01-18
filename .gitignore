@@ -33,10 +33,12 @@ Thumbs.db
 
 # Data files (optional - remove if you want to upload)
 *.csv
-*.pkl
+# Allow model files and assets for deployment
+!Model/*.pkl
+!Model/
+!assets/
 
 # Folders to exclude
 App/
-Model/
 OneDrive/
 .ipynb_checkpoints/
