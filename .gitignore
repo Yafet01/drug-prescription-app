@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+
+# Streamlit
+.streamlit/
+.streamlit/config.toml
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+users.db*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Data files (optional - remove if you want to upload)
+*.csv
+*.pkl
+
+# Folders to exclude
+App/
+Model/
+OneDrive/
+.ipynb_checkpoints/
