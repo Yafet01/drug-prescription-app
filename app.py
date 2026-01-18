@@ -97,6 +97,36 @@ def logout():
     st.session_state.pop("records_page", None)
     st.session_state.pop("section", None)
 
+def create_users_table(conn):
+    """Create the users table if it doesn't exist."""
+    if conn is None:
+        return
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
+        )''')
+        conn.commit()
+    except sqlite3.Error as e:
+        st.error(f"Error creating users table: {e}")
+
+def seed_default_user(conn):
+    """Seed the users table with a default user if not present."""
+    if conn is None:
+        return
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username=?", ("Tedros",))
+        if cursor.fetchone() is None:
+            from passlib.hash import bcrypt
+            hashed_password = bcrypt.hash("pass123")
+            cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", ("Tedros", hashed_password))
+            conn.commit()
+    except sqlite3.Error as e:
+        st.error(f"Error seeding default user: {e}")
+
 def main():
     """Main application entry point."""
     st.title('💊 Drug Prescription and Disease Dataset Analysis')
@@ -108,6 +138,11 @@ def main():
     # Connect to databases
     conn = create_connection(DB_PATH_USERS)
     medicine_conn = create_connection(DB_PATH_MEDICINE)
+
+    # Ensure users table exists and seed default user
+    if conn is not None:
+        create_users_table(conn)
+        seed_default_user(conn)
 
     # Initialize session state variables
     if "authenticated" not in st.session_state:
