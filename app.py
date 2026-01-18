@@ -1,134 +1,71 @@
 import streamlit as st
-import sqlite3
-import bcrypt
+from predict_page import show_predict_page
+from explore_page import show_explore_page
+import pandas as pd
+import pickle 
 from pathlib import Path
+import streamlit_authenticator as stauth
+import streamlit as st
 
-# Import custom modules
-from config import PROJECT_DIR, MODEL_PATH
-from predict_page import predict_page
-from explore_page import explore_page
-from about_page import about_page
+# Load the CSS file
+st.markdown("""
+<style>
+{}
+</style>
+""".format(open("styles.css").read()), unsafe_allow_html=True)
 
-# Page config
-st.set_page_config(
-    page_title="Drug Prescription to Disease Analysis",
-    page_icon="💊",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# Rest of the Streamlit application code
 
-def create_connection():
-    """Create a database connection with proper timeout and WAL mode."""
-    try:
-        db_path = PROJECT_DIR / "users.db"
-        conn = sqlite3.connect(str(db_path), timeout=10.0)
-        conn.execute("PRAGMA journal_mode=WAL")
-        return conn
-    except sqlite3.Error as e:
-        st.error(f"Database error: {e}")
-        return None
 
-def authenticate_user(username, password):
-    """Authenticate user with bcrypt."""
-    try:
-        conn = create_connection()
-        if not conn:
+admin="admin"
+
+def creds_entered():
+    if st.session_state["user"].strip() == admin and st.session_state["pass"].strip() == "password":
+        st.session_state["authenticated"]=True
+        return True
+    else:
+        st.session_state["authenticated"]=False
+        st.error("Invalid username or password")
+        return False
+    
+def authenticate_user():
+    if "authenticated" not in st.session_state:
+        st.text_input(label="Username:", value='',key="user" )
+        st.text_input(label="Password:", value='',key="pass", type="password", on_change= creds_entered )
+        login_button = st.button("Login")
+        if login_button:
+            creds_entered()
+        return False
+    else:
+        if st.session_state["authenticated"]:
+            return True
+        else:
+            st.text_input(label="Username:", value='',key="user" )
+            st.text_input(label="Password:", value='',key="pass", type="password", on_change= creds_entered )
+            login_button = st.button("Login", on_click=creds_entered)
+            if login_button:
+                creds_entered()
             return False
-        
-        cursor = conn.cursor()
-        cursor.execute("SELECT password_hash FROM users WHERE username = ?", (username,))
-        result = cursor.fetchone()
-        conn.close()
-        
-        if result:
-            stored_hash = result[0]
-            # Handle both bytes and string representations
-            if isinstance(stored_hash, str):
-                stored_hash = stored_hash.encode()
-            password_bytes = password.encode() if isinstance(password, str) else password
-            return bcrypt.checkpw(password_bytes, stored_hash)
-        return False
-    except Exception as e:
-        st.error(f"Authentication error: {e}")
-        return False
 
-def logout():
-    """Clear session state on logout."""
-    st.session_state.authenticated = False
-    st.session_state.username = None
+    
+st.set_option('deprecation.showPyplotGlobalUse', False)
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
-# Initialize session state
-if "authenticated" not in st.session_state:
-    st.session_state.authenticated = False
-    st.session_state.username = None
+hide_st_style="""
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header{visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
-# Main app layout
-if not st.session_state.authenticated:
-    col1, col2 = st.columns([2, 1])
-    
-    with col1:
-        st.markdown("# 💊 Drug Prescription to Disease Analysis")
-        st.markdown("### Predict medicine quantities based on disease type")
-    
-    st.divider()
-    
-    # Login form
-    col_login1, col_login2 = st.columns(2)
-    
-    with col_login1:
-        st.markdown("### Login")
-        username = st.text_input("Username", key="login_username")
-        password = st.text_input("Password", type="password", key="login_password")
-        
-        if st.button("Login", use_container_width=True):
-            if username and password:
-                if authenticate_user(username, password):
-                    st.session_state.authenticated = True
-                    st.session_state.username = username
-                    st.success(f"Welcome, {username}! 🎉")
-                    st.rerun()
-                else:
-                    st.error("Invalid username or password")
-            else:
-                st.warning("Please enter both username and password")
-    
-    with col_login2:
-        st.info(
-            "**Demo Credentials:**\n\n"
-            "Username: `admin`\n\n"
-            "Password: `admin123`"
-        )
+if not authenticate_user():
+    st.stop()
 
+page=st.sidebar.selectbox("Predict or Explore",( "Predict","Explore")) 
+if page=='Predict':
+    show_predict_page()
 else:
-    # Authenticated user - show sidebar navigation
-    st.sidebar.title(f"👤 {st.session_state.username}")
-    st.sidebar.divider()
+    show_explore_page()
     
-    page = st.sidebar.radio(
-        "Navigate",
-        ["🔮 Predict", "📊 Explore", "❓ About"],
-        label_visibility="collapsed"
-    )
-    
-    if st.sidebar.button("Logout", use_container_width=True):
-        logout()
-        st.rerun()
-    
-    st.sidebar.divider()
-    
-    # Page routing
-    if page == "🔮 Predict":
-        predict_page()
-    elif page == "📊 Explore":
-        explore_page()
-    elif page == "❓ About":
-        about_page()
-
-# Footer
-st.divider()
-st.markdown(
-    "<div style='text-align: center; color: #888; margin-top: 2rem;'>"
-    "Drug Prescription Analysis System | Built with Streamlit"
-    "</div>",
-    unsafe_allow_html=True
-)
