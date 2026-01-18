@@ -28,18 +28,3 @@ A Streamlit web application for analyzing drug prescriptions and disease dataset
    ```bash
    streamlit run app.py
    ```
-
-## Deployment
-- For local deployment, use the above Quick Start steps.
-- For cloud hosting (e.g., Streamlit Cloud, Heroku):
-  - Ensure all required files (app.py, requirements.txt, model files, databases) are present.
-  - Set up environment variables if needed.
-  - Configure the port and headless mode in `.streamlit/config.toml`.
-
-## Hosting Tips
-- Use relative paths for assets and databases.
-- Remove sensitive files before pushing to public repositories.
-- For Streamlit Cloud, simply push to GitHub and connect your repo.
-
-## License
-MIT License
