@@ -33,6 +33,7 @@ Thumbs.db
 
 # Data files (optional - remove if you want to upload)
 *.csv
+!Historical_Data_7_Aug_2024.csv
 # Allow model files and assets for deployment
 !Model/*.pkl
 !Model/
