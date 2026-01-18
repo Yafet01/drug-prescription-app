@@ -11,7 +11,7 @@ def load_model():
     with open('model_saved', 'rb') as f:
         model = pickle.load(f)
     return model
-train_data = pd.read_csv("new medicine.csv")
+train_data = pd.read_csv("Historical_Data_7_Aug_2024.csv")
 
 data = load_model()
 

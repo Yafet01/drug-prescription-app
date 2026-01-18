@@ -57,7 +57,7 @@ def preprocess_input(Year, Month, Medicines, Season, feature_columns, df):
     return np.array(input_data)
 
 
-def show_predict_page(model_path='Model/best_rf_model.pkl', feature_columns_path='Model/feature_columns.pkl', dataset_path="Model/Historical_Data_2021_Jan_2024.csv"):
+def show_predict_page(model_path='Model/best_rf_model.pkl', feature_columns_path='Model/feature_columns.pkl', dataset_path="Historical_Data_7_Aug_2024.csv"):
     st.title('Medicine Quantity Prediction')
     st.write('Please fill in the following details to predict the quantity of medicine needed.')
 
