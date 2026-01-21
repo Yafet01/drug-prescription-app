@@ -8,7 +8,6 @@ A Streamlit web application for analyzing drug prescriptions and disease dataset
 - Explore dataset
 - View and add records
 - Add new medicines and users
-- Dark mode UI
 
 ## Requirements
 - Python 3.12+
