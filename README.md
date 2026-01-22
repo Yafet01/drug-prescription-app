@@ -27,3 +27,6 @@ A Streamlit web application for analyzing drug prescriptions and disease dataset
    ```bash
    streamlit run app.py
    ```
+4. User creds
+   - User = "Admin"
+   - password = "pass123"
