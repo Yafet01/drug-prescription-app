@@ -23,10 +23,14 @@ A Streamlit web application for analyzing drug prescriptions and disease dataset
    ```bash
    pip install -r requirements.txt
    ```
-3. Run the app:
+3. User creds
+   ```bash
+   streamlit run database.py
+   ```
+   ctrl + c to end after operation is done
+   - User = "Admin"
+   - password = "pass123"
+4. Run the app:
    ```bash
    streamlit run app.py
    ```
-4. User creds
-   - User = "Admin"
-   - password = "pass123"
