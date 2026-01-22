@@ -41,7 +41,7 @@ def setup_database():
     conn = create_connection("users.db")
     if conn is not None:
         create_table(conn)
-        add_user(conn, "Tedros", "pass123")
+        add_user(conn, "Admin", "pass123")
         conn.close()
     else:
         print("Error! Cannot create the database connection.")
